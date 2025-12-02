@@ -130,8 +130,9 @@ All colors are defined as CSS variables in `src/index.css`:
 
 #### Favicon
 - **Usage**: Browser tab icon
-- **File**: Same logo file
-- **Size**: 32x32px (browser scales automatically)
+- **File**: `/frontend/public/icon.png`
+- **Size**: Browser scales automatically (recommended: 32x32px or larger)
+- **Format**: PNG
 
 #### Meta Tags
 - **Open Graph Image**: SPT logo
@@ -589,7 +590,8 @@ All interactive elements include:
 
 | File | Location | Usage |
 |------|----------|-------|
-| **SPT Logo** | `/frontend/public/spt-logo.png` | Header, favicon, meta tags |
+| **SPT Logo** | `/frontend/public/spt-logo.png` | Header, Open Graph image |
+| **Icon** | `/frontend/public/icon.png` | Favicon, Apple touch icon |
 | **HTML Meta** | `/frontend/index.html` | SEO and social sharing |
 | **CSS Variables** | `/frontend/src/index.css` | Color system |
 | **Component Styles** | `/frontend/src/components/*.css` | Individual component styling |
@@ -605,9 +607,10 @@ All interactive elements include:
 
 ### Favicon
 
-- **File**: `/frontend/public/spt-logo.png`
+- **File**: `/frontend/public/icon.png`
 - **Referenced in**: `index.html`
 - **Browser Display**: Tab icon
+- **Apple Touch Icon**: Same file used for iOS home screen icon
 
 ---
 
@@ -623,7 +626,8 @@ All interactive elements include:
 - ✅ SPT logo in header
 - ✅ Responsive sizing
 - ✅ Hover effects
-- ✅ Favicon configured
+- ✅ Custom icon.png as favicon
+- ✅ Apple touch icon configured
 
 ### Typography
 - ✅ Inter font family loaded

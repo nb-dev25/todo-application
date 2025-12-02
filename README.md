@@ -200,7 +200,8 @@ npm run lint
 ShonaPrinceTech/
 ├── frontend/
 │   ├── public/
-│   │   └── spt-logo.png          # Company logo
+│   │   ├── spt-logo.png          # Company logo (header)
+│   │   └── icon.png              # Favicon (browser tab icon)
 │   ├── src/
 │   │   ├── components/           # React components
 │   │   │   ├── AddToDoForm.tsx   # Form for creating todos
