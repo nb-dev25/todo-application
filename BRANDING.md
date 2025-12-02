@@ -84,6 +84,17 @@
 | **Shadow LG** | 0.18 | Modals, dialogs |
 | **Shadow XL** | 0.30 | Maximum elevation |
 
+### Toast Notification Colors
+
+| Color | Hex Code | Usage | Variant |
+|-------|----------|-------|---------|
+| **Success Green** | `#22c55e` | Success toasts, complete actions | Success, Complete |
+| **Error Red** | `#ef4444` | Incomplete/error toasts | Incomplete |
+| **Success Background** | `rgba(34, 197, 94, 0.1)` | Icon background for success | - |
+| **Error Background** | `rgba(239, 68, 68, 0.1)` | Icon background for errors | - |
+
+**Note:** While the brand is primarily monochromatic, toast notifications use green and red for clear user feedback on success/error states, which is a standard UX pattern.
+
 ### CSS Variables
 
 All colors are defined as CSS variables in `src/index.css`:
@@ -306,12 +317,125 @@ Focus: Border #000000, subtle shadow
 
 ### Modals & Dialogs
 
+#### Add Todo Modal
 ```css
 Background: #FFFFFF (white)
+Max Width: 900px (spacious layout)
 Border Radius: 16px
 Shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3)
 Overlay: rgba(0, 0, 0, 0.75) with blur(15px)
+Padding: 2.5rem
+Scrollbars: Hidden but scrollable
 ```
+
+#### Edit Modal
+```css
+Background: #FFFFFF (white)
+Max Width: 800px
+Border Radius: 16px
+Shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3)
+Overlay: rgba(0, 0, 0, 0.75) with blur(15px)
+Scrollbars: Hidden but scrollable
+```
+
+**Modal Features:**
+- Spacious layouts for comfortable form interaction
+- Hidden scrollbars for clean appearance
+- Smooth slide-up animations
+- Responsive (full-screen on mobile)
+- Escape key and overlay click to close
+
+### Toast Notifications
+
+Toast notifications appear in the top right corner with color-coded variants:
+
+#### Success Toast (Green)
+```css
+Background: #FFFFFF (white)
+Border Left: 5px solid #22c55e (green)
+Icon: ✓ (green checkmark)
+Icon Background: rgba(34, 197, 94, 0.1)
+Border Radius: 12px
+Position: Fixed, top-right
+Animation: Slide in from right
+Auto-dismiss: 3 seconds
+```
+
+**Usage:**
+- Successfully added todo
+- Task edited successfully
+- Task deleted successfully
+- Task marked as complete
+
+#### Incomplete Toast (Red)
+```css
+Background: #FFFFFF (white)
+Border Left: 5px solid #ef4444 (red)
+Icon: × (red X)
+Icon Background: rgba(239, 68, 68, 0.1)
+Border Radius: 12px
+Position: Fixed, top-right
+Animation: Slide in from right
+Auto-dismiss: 3 seconds
+```
+
+**Usage:**
+- Task marked as incomplete
+
+**Toast Features:**
+- Auto-dismiss after 3 seconds
+- Manual dismiss with × button
+- Smooth slide-in animation from right
+- Responsive positioning (full-width on mobile)
+- High z-index (1000) for visibility
+
+### Percentage Completion Indicator
+
+Todo cards with subtasks display a completion percentage badge:
+
+#### Default Percentage Badge
+```css
+Background: var(--bg-secondary) (#f8f8f8)
+Color: var(--text-color) (#000000)
+Border: 1px solid var(--border-color)
+Border Radius: 12px
+Font Size: 0.875rem
+Font Weight: 600
+Padding: 0.25rem 0.75rem
+```
+
+#### 100% Completion Badge (Green)
+```css
+Background: rgba(34, 197, 94, 0.15) (15% opacity green)
+Color: #22c55e (green text)
+Border: rgba(34, 197, 94, 0.3) (30% opacity green)
+Border Radius: 12px
+Transition: Smooth color change
+```
+
+**Features:**
+- Real-time percentage calculation based on subtask completion
+- Positioned inline with todo title
+- Green badge with transparency when 100% complete
+- Smooth transition when reaching 100%
+
+### Floating Add Todo Button
+
+```css
+Position: Fixed, top-right
+Background: var(--primary-color) (#000000)
+Color: white
+Border: 2px solid var(--primary-color)
+Border Radius: 8px
+Z-index: 101 (above header)
+Transition: Smooth position adjustment on scroll
+```
+
+**Scroll Behavior:**
+- Default position: Below full header (with title visible)
+- Scrolled position: Adjusts when header becomes smaller
+- Smooth transition matching header animation timing
+- Always visible and accessible
 
 ---
 
@@ -391,6 +515,8 @@ Duration: 0.3s
 - **Checkbox Toggle**: Scale animation
 - **Modal Open**: Scale + fade
 - **Scroll Header**: Smooth padding transition
+- **Toast Notification**: Slide in from right (400px → 0) with fade, icon pop animation
+- **Toast Dismiss**: Auto-dismiss after 3 seconds, manual dismiss with × button
 
 ---
 
@@ -466,6 +592,7 @@ All interactive elements include:
 | **SPT Logo** | `/frontend/public/spt-logo.png` | Header, favicon, meta tags |
 | **HTML Meta** | `/frontend/index.html` | SEO and social sharing |
 | **CSS Variables** | `/frontend/src/index.css` | Color system |
+| **Component Styles** | `/frontend/src/components/*.css` | Individual component styling |
 
 ### Meta Tags Implementation
 
@@ -509,6 +636,10 @@ All interactive elements include:
 - ✅ Buttons follow brand guidelines
 - ✅ Inputs match design system
 - ✅ Modals use brand colors
+- ✅ Toast notifications with color-coded variants
+- ✅ Floating ADD TODO button with scroll-adaptive positioning
+- ✅ Percentage completion indicators on todo cards
+- ✅ Green completion badge at 100% with transparency
 
 ### Animations
 - ✅ Smooth transitions
@@ -558,6 +689,10 @@ All interactive elements include:
 - ✅ Follow component styling guidelines
 - ✅ Use consistent border radius
 - ✅ Apply standard shadows
+- ✅ Use color-coded toast notifications (green for success, red for incomplete)
+- ✅ Display percentage completion on todo cards with subtasks
+- ✅ Show green badge with transparency at 100% completion
+- ✅ Hide scrollbars while maintaining scroll functionality
 
 ### ❌ Don'ts
 
@@ -585,6 +720,9 @@ All interactive elements include:
 - ❌ Don't over-animate
 - ❌ Don't use excessive shadows
 - ❌ Don't break design consistency
+- ❌ Don't use non-brand colors in toasts (only green #22c55e and red #ef4444)
+- ❌ Don't show scrollbars (hide them while keeping scroll functionality)
+- ❌ Don't use solid green for 100% badge (use transparent rgba for subtlety)
 
 ---
 

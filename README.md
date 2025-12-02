@@ -69,16 +69,22 @@ This is a **production-ready To-Do application** built as a competency assessmen
 #### 🎯 Subtask System
 - **Add Subtasks** - Break down todos into smaller actionable items
 - **Track Progress** - Visual progress bar showing completion (X/Y completed)
+- **Percentage Indicator** - Real-time completion percentage displayed on each todo card
+- **100% Completion Badge** - Green badge with transparency when all subtasks are complete
 - **Individual Completion** - Mark subtasks as done independently
 - **Quick Entry** - Press Enter to add new subtasks rapidly
 - **Bulk Management** - Add, edit, and remove multiple subtasks
 
 #### 🎨 User Experience
+- **Toast Notifications** - Color-coded success/incomplete notifications (green ✓ for success, red × for incomplete)
+- **Floating Add Button** - Fixed "ADD TODO" button that adapts to header scroll state
+- **Modal Forms** - Add todo form in a spacious modal dialog (900px width)
 - **Loading States** - Elegant spinners during API operations
 - **Error Messages** - Clear, dismissible error notifications
 - **Smooth Animations** - Professional transitions and micro-interactions
 - **Sticky Header** - Header adapts on scroll (logo-only when scrolled)
 - **Modal Dialogs** - Beautiful, centered modals with blurred backgrounds
+- **Hidden Scrollbars** - Clean interface with scrollbars hidden but scrolling functional
 - **Responsive Layout** - Optimized for all screen sizes
 
 #### 🔧 Developer Experience
@@ -87,6 +93,7 @@ This is a **production-ready To-Do application** built as a competency assessmen
 - **Component Architecture** - Reusable, well-structured components
 - **Comprehensive Comments** - Well-documented codebase
 - **Error Boundaries** - Graceful error handling
+- **Hidden Scrollbars** - Clean UI with scrollbars hidden but scrolling functional
 
 ---
 
@@ -197,12 +204,14 @@ ShonaPrinceTech/
 │   ├── src/
 │   │   ├── components/           # React components
 │   │   │   ├── AddToDoForm.tsx   # Form for creating todos
+│   │   │   ├── AddTodoModal.tsx  # Modal wrapper for add todo form
 │   │   │   ├── EditModal.tsx     # Modal for editing todos
-│   │   │   ├── ToDoItem.tsx      # Individual todo item
+│   │   │   ├── ToDoItem.tsx      # Individual todo item with percentage
 │   │   │   ├── ToDoList.tsx      # List of todos
 │   │   │   ├── SubtaskList.tsx   # Subtask management
 │   │   │   ├── LoadingSpinner.tsx # Loading indicator
 │   │   │   ├── ErrorMessage.tsx  # Error display
+│   │   │   ├── Toast.tsx         # Success/incomplete notifications
 │   │   │   └── ConfirmDialog.tsx # Delete confirmation
 │   │   ├── services/
 │   │   │   └── mockApi.ts        # Mock REST API service
@@ -221,9 +230,8 @@ ShonaPrinceTech/
 │   ├── vite.config.ts            # Vite configuration
 │   ├── env.example               # Environment variables template
 │   └── README.md                 # Frontend documentation
-├── README.md                      # This file
-├── BRANDING.md                    # Brand guidelines
-└── Frontend To-Do Application Competency Task.pdf
+├── README.md                     # This file
+└── BRANDING.md                   # Brand guidelines
 ```
 
 ---
@@ -272,10 +280,12 @@ For detailed configuration instructions, see [ENV_SETUP.md](frontend/ENV_SETUP.m
 
 ### Creating a Todo
 
-1. Fill in the **Title** field (required)
-2. Enter a **Description** (required)
-3. Optionally add **Subtasks** by clicking "+ Add Subtask"
-4. Click **"Add Todo"** button
+1. Click the **"ADD TODO"** button in the top right corner (below header)
+2. Fill in the **Title** field (required)
+3. Enter a **Description** (required)
+4. Optionally add **Subtasks** by clicking "+ Add Subtask"
+5. Click **"Add Todo"** button in the modal
+6. A green toast notification will appear confirming "Successfully added!"
 
 ### Managing Subtasks
 
@@ -291,17 +301,22 @@ For detailed configuration instructions, see [ENV_SETUP.md](frontend/ENV_SETUP.m
 2. Click the **"Edit"** button
 3. Modify title, description, or subtasks
 4. Click **"Save Changes"**
+5. A green toast notification will appear confirming "Task edited successfully!"
 
 ### Deleting a Todo
 
 1. Expand the todo card
 2. Click the **"Delete"** button
 3. Confirm deletion in the dialog
+4. A green toast notification will appear confirming "Task deleted successfully!"
 
 ### Marking Todos as Complete
 
 - Click the checkbox next to the todo title
 - Completed todos are visually distinguished (strikethrough, reduced opacity)
+- Toast notification appears confirming the action (green ✓ for complete, red × for incomplete)
+- **Percentage Indicator**: Each todo with subtasks shows completion percentage
+- **100% Badge**: When all subtasks are complete, the percentage badge turns green with transparency
 
 ---
 
@@ -427,13 +442,16 @@ All API requests and responses are strictly typed. See `src/types/todo.ts` for c
 ```
 App (Main Container)
 ├── Header (Sticky, scroll-responsive)
-├── AddToDoForm (Create new todos)
+├── ADD TODO Button (Floating, scroll-adaptive)
+├── Toast (Success/incomplete notifications)
 ├── ToDoList (Container)
-│   └── ToDoItem (Individual todo)
+│   └── ToDoItem (Individual todo with percentage)
 │       ├── SubtaskList (Subtask management)
 │       └── Actions (Edit/Delete)
+├── AddTodoModal (Modal for creating todos)
 ├── EditModal (Edit existing todos)
-└── ConfirmDialog (Delete confirmation)
+├── ConfirmDialog (Delete confirmation)
+└── ErrorMessage (Error display)
 ```
 
 ### State Management
@@ -681,13 +699,14 @@ This project is created for assessment purposes as part of the **Frontend To-Do 
 
 ## 📊 Project Statistics
 
-- **Total Components**: 8
-- **TypeScript Files**: 15+
-- **CSS Files**: 10+
-- **Lines of Code**: ~3,500+
+- **Total Components**: 10
+- **TypeScript Files**: 17+
+- **CSS Files**: 12+
+- **Lines of Code**: ~4,200+
 - **Type Coverage**: 100%
 - **Zero `any` Types**: ✅
 - **Responsive Breakpoints**: 3 (mobile, tablet, desktop)
+- **Initial Todos**: 8 realistic web developer tasks with subtasks
 
 ---
 

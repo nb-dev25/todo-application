@@ -28,6 +28,16 @@ export const ToDoItem: React.FC<ToDoItemProps> = ({
   const [showDeleteConfirm, setShowDeleteConfirm] = useState<boolean>(false);
   const hasSubtasks = todo.subtasks && todo.subtasks.length > 0;
 
+  // Calculate completion percentage
+  const calculatePercentage = (): number => {
+    if (!hasSubtasks) return 0;
+    const completed = todo.subtasks.filter((st) => st.completed).length;
+    const total = todo.subtasks.length;
+    return total > 0 ? Math.round((completed / total) * 100) : 0;
+  };
+
+  const completionPercentage = calculatePercentage();
+
   const handleToggle = (): void => {
     onToggleComplete(todo.id);
   };
@@ -87,6 +97,11 @@ export const ToDoItem: React.FC<ToDoItemProps> = ({
           <div className="todo-header">
             <div className="todo-title-group">
               <h3 className="todo-title">{todo.title}</h3>
+              {hasSubtasks && (
+                <span className={`todo-percentage ${completionPercentage === 100 ? 'completed' : ''}`}>
+                  {completionPercentage}%
+                </span>
+              )}
             </div>
           </div>
           <p className="todo-description">{todo.description}</p>

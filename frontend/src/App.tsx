@@ -2,10 +2,11 @@ import { useState, useEffect } from 'react';
 import type { Todo, CreateTodoDTO, UpdateTodoDTO } from './types/todo';
 import { mockApi } from './services/mockApi';
 import { ToDoList } from './components/ToDoList';
-import { AddToDoForm } from './components/AddToDoForm';
+import { AddTodoModal } from './components/AddTodoModal';
 import { EditModal } from './components/EditModal';
 import { LoadingSpinner } from './components/LoadingSpinner';
 import { ErrorMessage } from './components/ErrorMessage';
+import { Toast } from './components/Toast';
 import './App.css';
 
 /**
@@ -19,6 +20,8 @@ function App() {
   const [error, setError] = useState<string | null>(null);
   const [editingTodo, setEditingTodo] = useState<Todo | null>(null);
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
+  const [toast, setToast] = useState<{ message: string; variant?: 'success' | 'complete' | 'incomplete' | 'delete' } | null>(null);
 
   /**
    * Fetch todos on component mount
@@ -84,6 +87,8 @@ function App() {
     try {
       const response = await mockApi.createTodo(data);
       setTodos((prevTodos) => [...prevTodos, response.todo]);
+      setToast({ message: 'Successfully added!', variant: 'success' });
+      setIsAddModalOpen(false);
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to create todo';
       setError(errorMessage);
@@ -105,6 +110,7 @@ function App() {
         prevTodos.map((todo) => (todo.id === id ? response.todo : todo))
       );
       setEditingTodo(null); // Close modal after successful update
+      setToast({ message: 'Task edited successfully!', variant: 'success' });
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to update todo';
       setError(errorMessage);
@@ -125,6 +131,12 @@ function App() {
       setTodos((prevTodos) =>
         prevTodos.map((t) => (t.id === id ? response.todo : t))
       );
+      // Show toast message based on completion status
+      if (!todo.completed) {
+        setToast({ message: 'Task marked as complete!', variant: 'complete' });
+      } else {
+        setToast({ message: 'Task marked as incomplete!', variant: 'incomplete' });
+      }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to update todo';
       setError(errorMessage);
@@ -164,6 +176,7 @@ function App() {
     try {
       await mockApi.deleteTodo(id);
       setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
+      setToast({ message: 'Task deleted successfully!', variant: 'success' });
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to delete todo';
       setError(errorMessage);
@@ -192,9 +205,30 @@ function App() {
     setError(null);
   };
 
+  /**
+   * Handle dismissing toast message
+   */
+  const handleDismissToast = (): void => {
+    setToast(null);
+  };
+
+  /**
+   * Handle opening add todo modal
+   */
+  const handleOpenAddModal = (): void => {
+    setIsAddModalOpen(true);
+  };
+
+  /**
+   * Handle closing add todo modal
+   */
+  const handleCloseAddModal = (): void => {
+    setIsAddModalOpen(false);
+  };
+
   return (
     <>
-      <div className="app">
+      <div className={`app ${isScrolled ? 'header-scrolled' : ''}`}>
         <header className={`app-header ${isScrolled ? 'scrolled' : ''}`}>
           <div className="header-logo">
             <img src="/spt-logo.png" alt="Shona Prince Technologies" className="logo" />
@@ -202,10 +236,24 @@ function App() {
           <h1>To-Do Application</h1>
         </header>
 
+        {toast && (
+          <Toast 
+            message={toast.message} 
+            onDismiss={handleDismissToast}
+            variant={toast.variant}
+          />
+        )}
+
+        <button
+          className={`add-todo-button ${isScrolled ? 'header-scrolled' : ''}`}
+          onClick={handleOpenAddModal}
+          aria-label="Add new todo"
+        >
+          ADD TODO
+        </button>
+
         <main className="app-main">
           {error && <ErrorMessage message={error} onDismiss={handleDismissError} />}
-
-          <AddToDoForm onSubmit={handleCreateTodo} isLoading={isSubmitting} />
 
           <section className="todos-section">
             <h2>Your To-Dos</h2>
@@ -236,6 +284,13 @@ function App() {
           isLoading={isSubmitting}
         />
       )}
+
+      <AddTodoModal
+        isOpen={isAddModalOpen}
+        onClose={handleCloseAddModal}
+        onSubmit={handleCreateTodo}
+        isLoading={isSubmitting}
+      />
     </>
   );
 }

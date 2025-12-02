@@ -122,22 +122,13 @@
   margin-right: -0.5rem;
 }
 
+.modal-form-content {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
 .modal-form-content::-webkit-scrollbar {
-  width: 8px;
-}
-
-.modal-form-content::-webkit-scrollbar-track {
-  background: var(--bg-secondary);
-  border-radius: 4px;
-}
-
-.modal-form-content::-webkit-scrollbar-thumb {
-  background: var(--border-color);
-  border-radius: 4px;
-}
-
-.modal-form-content::-webkit-scrollbar-thumb:hover {
-  background: var(--border-dark);
+  display: none; /* Chrome, Safari, Opera */
 }
 
 .modal-content .form-group {
@@ -191,21 +182,13 @@
   margin-top: 0.5rem;
 }
 
+.subtasks-container {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
 .subtasks-container::-webkit-scrollbar {
-  width: 8px;
-}
-
-.subtasks-container::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.subtasks-container::-webkit-scrollbar-thumb {
-  background: var(--border-color);
-  border-radius: 4px;
-}
-
-.subtasks-container::-webkit-scrollbar-thumb:hover {
-  background: var(--border-dark);
+  display: none; /* Chrome, Safari, Opera */
 }
 
 .subtask-input-group {

@@ -133,6 +133,7 @@
   border-radius: var(--border-radius);
   font-size: 13px;
   font-weight: 600;
+  color: var(--text-color);
   cursor: pointer;
   transition: var(--transition);
   margin-left: 0.5rem;
@@ -141,6 +142,7 @@
 .btn-add-subtask:hover:not(:disabled) {
   background: var(--border-light);
   border-color: var(--primary-color);
+  color: var(--text-color);
 }
 
 .btn-remove-subtask {
