@@ -1,0 +1,137 @@
+import React, { useState } from 'react';
+import type { Todo } from '../types/todo';
+import { SubtaskList } from './SubtaskList';
+import { ConfirmDialog } from './ConfirmDialog';
+import './ToDoItem.css';
+
+interface ToDoItemProps {
+  todo: Todo;
+  onToggleComplete: (id: string) => void;
+  onToggleSubtask: (todoId: string, subtaskId: string) => void;
+  onEdit: (todo: Todo) => void;
+  onDelete: (id: string) => void;
+}
+
+/**
+ * ToDoItem Component
+ * Displays a single todo item with actions (complete, edit, delete)
+ * Expandable to show subtasks
+ */
+export const ToDoItem: React.FC<ToDoItemProps> = ({
+  todo,
+  onToggleComplete,
+  onToggleSubtask,
+  onEdit,
+  onDelete,
+}) => {
+  const [isExpanded, setIsExpanded] = useState<boolean>(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState<boolean>(false);
+  const hasSubtasks = todo.subtasks && todo.subtasks.length > 0;
+
+  const handleToggle = (): void => {
+    onToggleComplete(todo.id);
+  };
+
+  const handleEdit = (e: React.MouseEvent): void => {
+    e.stopPropagation();
+    onEdit(todo);
+  };
+
+  const handleDelete = (e: React.MouseEvent): void => {
+    e.preventDefault();
+    e.stopPropagation();
+    setShowDeleteConfirm(true);
+  };
+
+  const confirmDelete = (): void => {
+    onDelete(todo.id);
+    setShowDeleteConfirm(false);
+  };
+
+  const cancelDelete = (): void => {
+    setShowDeleteConfirm(false);
+  };
+
+  const handleCardClick = (): void => {
+    setIsExpanded(!isExpanded);
+  };
+
+  const handleSubtaskClick = (e: React.MouseEvent): void => {
+    e.stopPropagation();
+  };
+
+  return (
+    <>
+      {showDeleteConfirm && (
+        <ConfirmDialog
+          title="Delete To-Do"
+          message={`Are you sure you want to delete "${todo.title}"? This action cannot be undone.`}
+          onConfirm={confirmDelete}
+          onCancel={cancelDelete}
+        />
+      )}
+      <div
+        className={`todo-item ${todo.completed ? 'completed' : ''} expandable ${isExpanded ? 'expanded' : ''}`}
+        onClick={handleCardClick}
+      >
+      <div className="todo-item-content">
+        <input
+          type="checkbox"
+          checked={todo.completed}
+          onChange={handleToggle}
+          className="todo-checkbox"
+          aria-label={`Mark "${todo.title}" as ${todo.completed ? 'incomplete' : 'complete'}`}
+          onClick={(e) => e.stopPropagation()}
+        />
+        <div className="todo-text">
+          <div className="todo-header">
+            <div className="todo-title-group">
+              <h3 className="todo-title">{todo.title}</h3>
+            </div>
+          </div>
+          <p className="todo-description">{todo.description}</p>
+          {isExpanded && hasSubtasks && (
+            <div onClick={handleSubtaskClick}>
+              <SubtaskList
+                subtasks={todo.subtasks}
+                onToggleSubtask={onToggleSubtask}
+                todoId={todo.id}
+              />
+            </div>
+          )}
+          {isExpanded && (
+            <div className="todo-actions-bottom" onClick={(e) => e.stopPropagation()}>
+              <button
+                type="button"
+                onClick={handleEdit}
+                className="btn btn-edit"
+                aria-label={`Edit "${todo.title}"`}
+              >
+                Edit
+              </button>
+              <button
+                type="button"
+                onClick={handleDelete}
+                className="btn btn-delete"
+                aria-label={`Delete "${todo.title}"`}
+              >
+                Delete
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+      <div className="todo-header-actions" onClick={(e) => e.stopPropagation()}>
+        <button
+          className="expand-button"
+          onClick={handleCardClick}
+          aria-label={isExpanded ? 'Collapse' : 'Expand'}
+        >
+          <span className="expand-icon">{isExpanded ? '▼' : '▶'}</span>
+        </button>
+      </div>
+      </div>
+    </>
+  );
+};
+

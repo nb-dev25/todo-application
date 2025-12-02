@@ -1,0 +1,95 @@
+.subtask-list-container {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-light);
+}
+
+.subtask-progress {
+  margin-bottom: 0.75rem;
+}
+
+.progress-text {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-light);
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.025em;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background-color: var(--border-light);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--primary-color);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.subtask-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.subtask-item {
+  margin: 0;
+}
+
+.subtask-label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+}
+
+.subtask-label:hover {
+  background-color: var(--bg-secondary);
+}
+
+.subtask-checkbox {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: var(--primary-color);
+  flex-shrink: 0;
+}
+
+.subtask-text {
+  font-size: 14px;
+  color: var(--text-color);
+  line-height: 1.5;
+  flex: 1;
+  transition: all 0.2s ease;
+}
+
+.subtask-text.completed {
+  text-decoration: line-through;
+  color: var(--text-light);
+  opacity: 0.7;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .subtask-text {
+    font-size: 13px;
+  }
+
+  .subtask-checkbox {
+    width: 16px;
+    height: 16px;
+  }
+}
+
