@@ -77,7 +77,7 @@ This is a **production-ready To-Do application** built as a competency assessmen
 
 #### 🎨 User Experience
 - **Toast Notifications** - Color-coded success/incomplete notifications (green ✓ for success, red × for incomplete)
-- **Floating Add Button** - Fixed "ADD TODO" button that adapts to header scroll state
+- **Floating Add Button** - Fixed "ADD TO-DO" button that adapts to header scroll state with pop-in animation
 - **Modal Forms** - Add todo form in a spacious modal dialog (900px width)
 - **Loading States** - Elegant spinners during API operations
 - **Error Messages** - Clear, dismissible error notifications
@@ -281,7 +281,7 @@ For detailed configuration instructions, see [ENV_SETUP.md](frontend/ENV_SETUP.m
 
 ### Creating a Todo
 
-1. Click the **"ADD TODO"** button in the top right corner (below header)
+1. Click the **"ADD TO-DO"** button in the top right corner (below header)
 2. Fill in the **Title** field (required)
 3. Enter a **Description** (required)
 4. Optionally add **Subtasks** by clicking "+ Add Subtask"
@@ -443,7 +443,7 @@ All API requests and responses are strictly typed. See `src/types/todo.ts` for c
 ```
 App (Main Container)
 ├── Header (Sticky, scroll-responsive)
-├── ADD TODO Button (Floating, scroll-adaptive)
+├── ADD TO-DO Button (Floating, scroll-adaptive with pop-in animation)
 ├── Toast (Success/incomplete notifications)
 ├── ToDoList (Container)
 │   └── ToDoItem (Individual todo with percentage)

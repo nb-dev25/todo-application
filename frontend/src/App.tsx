@@ -35,27 +35,40 @@ function App() {
    * Smooth scroll handler with hysteresis to prevent flickering
    */
   useEffect(() => {
-    let timeoutId: ReturnType<typeof setTimeout>;
+    let rafId: number | null = null;
+    let lastKnownScrollY = 0;
     
     const handleScroll = (): void => {
-      clearTimeout(timeoutId);
-      
-      timeoutId = setTimeout(() => {
-        const scrollY = window.scrollY;
-        
-        // Add hysteresis: different thresholds for hide/show
-        if (scrollY > 120 && !isScrolled) {
-          setIsScrolled(true);
-        } else if (scrollY < 60 && isScrolled) {
-          setIsScrolled(false);
-        }
-      }, 10);
+      if (rafId === null) {
+        rafId = requestAnimationFrame(() => {
+          const scrollY = window.scrollY;
+          
+          // Only update if scroll position has changed significantly
+          if (Math.abs(scrollY - lastKnownScrollY) > 5) {
+            // Add hysteresis: different thresholds for hide/show to prevent flickering
+            if (scrollY > 80 && !isScrolled) {
+              setIsScrolled(true);
+            } else if (scrollY < 30 && isScrolled) {
+              setIsScrolled(false);
+            }
+            lastKnownScrollY = scrollY;
+          }
+          
+          rafId = null;
+        });
+      }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
+    
+    // Initial check
+    handleScroll();
+    
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      clearTimeout(timeoutId);
+      if (rafId !== null) {
+        cancelAnimationFrame(rafId);
+      }
     };
   }, [isScrolled]);
 
@@ -249,7 +262,7 @@ function App() {
           onClick={handleOpenAddModal}
           aria-label="Add new todo"
         >
-          ADD TODO
+          ADD TO-DO
         </button>
 
         <main className="app-main">

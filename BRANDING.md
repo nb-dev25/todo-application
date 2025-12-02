@@ -420,7 +420,7 @@ Transition: Smooth color change
 - Green badge with transparency when 100% complete
 - Smooth transition when reaching 100%
 
-### Floating Add Todo Button
+### Floating Add To-Do Button
 
 ```css
 Position: Fixed, top-right
@@ -429,14 +429,16 @@ Color: white
 Border: 2px solid var(--primary-color)
 Border Radius: 8px
 Z-index: 101 (above header)
-Transition: Smooth position adjustment on scroll
+Transition: Smooth position adjustment on scroll (0.5s ease-in-out)
+Animation: Pop-in effect when header scrolls
 ```
 
 **Scroll Behavior:**
 - Default position: Below full header (with title visible)
-- Scrolled position: Adjusts when header becomes smaller
-- Smooth transition matching header animation timing
-- Always visible and accessible
+- Scrolled position: Adjusts when header becomes compact
+- Pop-in animation: Bouncy entrance with scale and fade (0.4s cubic-bezier)
+- Smooth transition matching header animation timing (0.5s)
+- Always visible and accessible below the header
 
 ---
 
@@ -515,7 +517,8 @@ Duration: 0.3s
 - **Input Focus**: Border color change + shadow
 - **Checkbox Toggle**: Scale animation
 - **Modal Open**: Scale + fade
-- **Scroll Header**: Smooth padding transition
+- **Scroll Header**: Smooth padding transition with text fade-out
+- **Button Pop-In**: Bouncy scale animation when header scrolls (cubic-bezier(0.34, 1.56, 0.64, 1))
 - **Toast Notification**: Slide in from right (400px → 0) with fade, icon pop animation
 - **Toast Dismiss**: Auto-dismiss after 3 seconds, manual dismiss with × button
 
@@ -641,7 +644,7 @@ All interactive elements include:
 - ✅ Inputs match design system
 - ✅ Modals use brand colors
 - ✅ Toast notifications with color-coded variants
-- ✅ Floating ADD TODO button with scroll-adaptive positioning
+- ✅ Floating ADD TO-DO button with scroll-adaptive positioning and pop-in animation
 - ✅ Percentage completion indicators on todo cards
 - ✅ Green completion badge at 100% with transparency
 
