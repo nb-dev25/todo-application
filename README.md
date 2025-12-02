@@ -465,10 +465,97 @@ App (Main Container)
 
 ## 🚢 Deployment
 
-### Production Build
+### Deploy to Vercel
+
+Vercel is the recommended hosting platform for this application. The project is pre-configured for easy deployment.
+
+#### Option 1: Deploy via Vercel CLI (Recommended)
+
+1. **Install Vercel CLI** (if not already installed)
+   ```bash
+   npm install -g vercel
+   ```
+
+2. **Login to Vercel**
+   ```bash
+   vercel login
+   ```
+
+3. **Navigate to project root**
+   ```bash
+   cd ShonaPrinceTech
+   ```
+
+4. **Deploy to Vercel**
+   ```bash
+   vercel
+   ```
+   
+   Follow the prompts:
+   - Link to existing project or create new
+   - Confirm settings (auto-detected from `vercel.json`)
+   - Deploy!
+
+5. **For production deployment**
+   ```bash
+   vercel --prod
+   ```
+
+#### Option 2: Deploy via Vercel Dashboard
+
+1. **Push your code to GitHub**
+   ```bash
+   git add .
+   git commit -m "Prepare for Vercel deployment"
+   git push origin main
+   ```
+
+2. **Go to [vercel.com](https://vercel.com)**
+   - Sign in with your GitHub account
+   - Click "Add New Project"
+   - Import your repository
+
+3. **Configure Project Settings**
+   - **Root Directory**: Leave as default (Vercel will use `vercel.json` config)
+   - **Framework Preset**: Vite (auto-detected)
+   - **Build Command**: `cd frontend && npm install && npm run build` (auto-configured)
+   - **Output Directory**: `frontend/dist` (auto-configured)
+   - **Install Command**: `cd frontend && npm install` (auto-configured)
+
+4. **Add Environment Variables** (Optional)
+   - Go to Project Settings → Environment Variables
+   - Add any `VITE_*` variables you need for production
+   - Example:
+     ```
+     VITE_ENABLE_ERROR_SIMULATION=false
+     VITE_API_DELAY_GET=200
+     ```
+
+5. **Deploy**
+   - Click "Deploy"
+   - Wait for build to complete
+   - Your app will be live at `https://your-project.vercel.app`
+
+#### Vercel Configuration
+
+The project includes a `vercel.json` configuration file that:
+- ✅ Automatically builds from the `frontend/` directory
+- ✅ Configures SPA routing (all routes redirect to `index.html`)
+- ✅ Sets up proper build and output directories
+- ✅ Configures Vite framework settings
+
+#### Custom Domain (Optional)
+
+1. Go to your project on Vercel Dashboard
+2. Navigate to Settings → Domains
+3. Add your custom domain
+4. Follow DNS configuration instructions
+
+### Production Build (Local)
 
 1. **Build the application**
    ```bash
+   cd frontend
    npm run build
    ```
 
@@ -480,7 +567,7 @@ App (Main Container)
 3. **Deploy the `dist/` folder**
    - The `dist/` directory contains optimized production files
    - Deploy to any static hosting service:
-     - Vercel
+     - Vercel (recommended)
      - Netlify
      - AWS S3 + CloudFront
      - GitHub Pages
