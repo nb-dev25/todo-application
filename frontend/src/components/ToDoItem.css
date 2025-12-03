@@ -217,6 +217,49 @@
   font-weight: 400;
 }
 
+.todo-due-date {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  font-size: 0.875rem;
+  border: 1px solid var(--border-color);
+}
+
+.todo-due-date.overdue {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.due-date-label {
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+.due-date-value {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.todo-due-date.overdue .due-date-value {
+  color: #ef4444;
+}
+
+.overdue-badge {
+  margin-left: auto;
+  padding: 0.25rem 0.5rem;
+  background: #ef4444;
+  color: white;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
 
 /* Responsive Design */
 @media (max-width: 768px) {

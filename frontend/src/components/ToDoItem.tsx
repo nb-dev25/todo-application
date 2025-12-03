@@ -38,6 +38,36 @@ export const ToDoItem: React.FC<ToDoItemProps> = ({
 
   const completionPercentage = calculatePercentage();
 
+  // Format due date for display
+  const formatDueDate = (dateString?: string): string | null => {
+    if (!dateString) return null;
+    try {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'short', 
+        day: 'numeric' 
+      });
+    } catch {
+      return null;
+    }
+  };
+
+  // Check if due date is overdue
+  const isOverdue = (dateString?: string): boolean => {
+    if (!dateString || todo.completed) return false;
+    try {
+      const dueDate = new Date(dateString);
+      dueDate.setHours(23, 59, 59, 999);
+      return dueDate < new Date();
+    } catch {
+      return false;
+    }
+  };
+
+  const dueDateFormatted = formatDueDate(todo.dueDate);
+  const overdue = isOverdue(todo.dueDate);
+
   const handleToggle = (): void => {
     onToggleComplete(todo.id);
   };
@@ -105,6 +135,13 @@ export const ToDoItem: React.FC<ToDoItemProps> = ({
             </div>
           </div>
           <p className="todo-description">{todo.description}</p>
+          {dueDateFormatted && (
+            <div className={`todo-due-date ${overdue ? 'overdue' : ''}`}>
+              <span className="due-date-label">Due:</span>
+              <span className="due-date-value">{dueDateFormatted}</span>
+              {overdue && <span className="overdue-badge">Overdue</span>}
+            </div>
+          )}
           {isExpanded && hasSubtasks && (
             <div onClick={handleSubtaskClick}>
               <SubtaskList

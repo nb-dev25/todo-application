@@ -20,6 +20,7 @@ export interface Todo {
   subtasks: Subtask[];
   createdAt: string;
   updatedAt: string;
+  dueDate?: string; // Optional due date in ISO format
 }
 
 /**
@@ -58,6 +59,7 @@ export interface CreateTodoDTO {
   title: string;
   description: string;
   subtasks?: string[];
+  dueDate?: string; // Optional due date in ISO format
 }
 
 /**
@@ -69,5 +71,6 @@ export interface UpdateTodoDTO {
   description?: string;
   completed?: boolean;
   subtasks?: Subtask[];
+  dueDate?: string; // Optional due date in ISO format
 }
 

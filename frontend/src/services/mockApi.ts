@@ -41,6 +41,7 @@ let mockTodos: Todo[] = [
     ],
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
+    dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), // 7 days from now
   },
   {
     id: '2',
@@ -55,6 +56,7 @@ let mockTodos: Todo[] = [
     ],
     createdAt: new Date(Date.now() - 86400000).toISOString(),
     updatedAt: new Date(Date.now() - 86400000).toISOString(),
+    dueDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(), // 3 days from now
   },
   {
     id: '3',
@@ -69,6 +71,7 @@ let mockTodos: Todo[] = [
     ],
     createdAt: new Date(Date.now() - 172800000).toISOString(),
     updatedAt: new Date(Date.now() - 172800000).toISOString(),
+    dueDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString(), // 14 days from now
   },
   {
     id: '4',
@@ -84,6 +87,7 @@ let mockTodos: Todo[] = [
     ],
     createdAt: new Date(Date.now() - 259200000).toISOString(),
     updatedAt: new Date(Date.now() - 259200000).toISOString(),
+    dueDate: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(), // 5 days ago (completed)
   },
   {
     id: '5',
@@ -99,6 +103,7 @@ let mockTodos: Todo[] = [
     ],
     createdAt: new Date(Date.now() - 345600000).toISOString(),
     updatedAt: new Date(Date.now() - 345600000).toISOString(),
+    dueDate: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000).toISOString(), // 10 days from now
   },
   {
     id: '6',
@@ -113,6 +118,7 @@ let mockTodos: Todo[] = [
     ],
     createdAt: new Date(Date.now() - 432000000).toISOString(),
     updatedAt: new Date(Date.now() - 432000000).toISOString(),
+    dueDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString(), // 5 days from now
   },
   {
     id: '7',
@@ -127,6 +133,7 @@ let mockTodos: Todo[] = [
     ],
     createdAt: new Date(Date.now() - 518400000).toISOString(),
     updatedAt: new Date(Date.now() - 518400000).toISOString(),
+    dueDate: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000).toISOString(), // 1 day from now
   },
   {
     id: '8',
@@ -141,6 +148,7 @@ let mockTodos: Todo[] = [
     ],
     createdAt: new Date(Date.now() - 604800000).toISOString(),
     updatedAt: new Date(Date.now() - 604800000).toISOString(),
+    dueDate: new Date(Date.now() + 21 * 24 * 60 * 60 * 1000).toISOString(), // 21 days from now
   },
 ];
 
@@ -209,6 +217,7 @@ export const mockApi = {
       subtasks: createSubtasks(data.subtasks),
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
+      dueDate: data.dueDate,
     };
 
     mockTodos = [...mockTodos, newTodo];

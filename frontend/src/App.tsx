@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import type { Todo, CreateTodoDTO, UpdateTodoDTO } from './types/todo';
 import { mockApi } from './services/mockApi';
 import { ToDoList } from './components/ToDoList';
@@ -7,6 +7,7 @@ import { EditModal } from './components/EditModal';
 import { LoadingSpinner } from './components/LoadingSpinner';
 import { ErrorMessage } from './components/ErrorMessage';
 import { Toast } from './components/Toast';
+import { SearchBar, type StatusFilter, type DateFilter } from './components/SearchBar';
 import './App.css';
 
 /**
@@ -22,6 +23,11 @@ function App() {
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
   const [toast, setToast] = useState<{ message: string; variant?: 'success' | 'complete' | 'incomplete' | 'delete' } | null>(null);
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');
+  const [dateFilter, setDateFilter] = useState<DateFilter>('all');
+  const [customDateStart, setCustomDateStart] = useState<string | undefined>(undefined);
+  const [customDateEnd, setCustomDateEnd] = useState<string | undefined>(undefined);
 
   /**
    * Fetch todos on component mount
@@ -239,6 +245,62 @@ function App() {
     setIsAddModalOpen(false);
   };
 
+  /**
+   * Filter todos based on search query, status, and date filters
+   */
+  const filteredTodos = useMemo(() => {
+    let filtered = [...todos];
+
+    // Search filter
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase().trim();
+      filtered = filtered.filter(
+        (todo) =>
+          todo.title.toLowerCase().includes(query) ||
+          todo.description.toLowerCase().includes(query)
+      );
+    }
+
+    // Status filter
+    if (statusFilter === 'completed') {
+      filtered = filtered.filter((todo) => todo.completed);
+    } else if (statusFilter === 'pending') {
+      filtered = filtered.filter((todo) => !todo.completed);
+    }
+
+    // Date filter - Custom Range only
+    if (dateFilter === 'custom') {
+      filtered = filtered.filter((todo) => {
+        if (!todo.dueDate) {
+          // If no due date, exclude from custom date filter
+          return false;
+        }
+
+        if (!customDateStart && !customDateEnd) return true;
+
+        const dueDate = new Date(todo.dueDate);
+        dueDate.setHours(0, 0, 0, 0);
+        
+        const start = customDateStart ? new Date(customDateStart) : null;
+        const end = customDateEnd ? new Date(customDateEnd) : null;
+        
+        if (start) start.setHours(0, 0, 0, 0);
+        if (end) end.setHours(23, 59, 59, 999);
+        
+        if (start && end) {
+          return dueDate >= start && dueDate <= end;
+        } else if (start) {
+          return dueDate >= start;
+        } else if (end) {
+          return dueDate <= end;
+        }
+        return true;
+      });
+    }
+
+    return filtered;
+  }, [todos, searchQuery, statusFilter, dateFilter, customDateStart, customDateEnd]);
+
   return (
     <>
       <div className={`app ${isScrolled ? 'header-scrolled' : ''}`}>
@@ -273,13 +335,39 @@ function App() {
             {isLoading ? (
               <LoadingSpinner message="Loading todos..." />
             ) : (
-              <ToDoList
-                todos={todos}
-                onToggleComplete={handleToggleComplete}
-                onToggleSubtask={handleToggleSubtask}
-                onEdit={handleEditTodo}
-                onDelete={handleDeleteTodo}
-              />
+              <>
+                <SearchBar
+                  searchQuery={searchQuery}
+                  statusFilter={statusFilter}
+                  dateFilter={dateFilter}
+                  customDateStart={customDateStart}
+                  customDateEnd={customDateEnd}
+                  onSearchChange={setSearchQuery}
+                  onStatusFilterChange={setStatusFilter}
+                  onDateFilterChange={setDateFilter}
+                  onCustomDateChange={(start, end) => {
+                    setCustomDateStart(start);
+                    setCustomDateEnd(end);
+                  }}
+                />
+                {filteredTodos.length === 0 ? (
+                  <div className="todo-list-empty">
+                    <p>
+                      {searchQuery || statusFilter !== 'all' || dateFilter !== 'all'
+                        ? 'No todos match your filters. Try adjusting your search criteria.'
+                        : 'No todos yet. Add your first todo to get started!'}
+                    </p>
+                  </div>
+                ) : (
+                  <ToDoList
+                    todos={filteredTodos}
+                    onToggleComplete={handleToggleComplete}
+                    onToggleSubtask={handleToggleSubtask}
+                    onEdit={handleEditTodo}
+                    onDelete={handleDeleteTodo}
+                  />
+                )}
+              </>
             )}
           </section>
         </main>

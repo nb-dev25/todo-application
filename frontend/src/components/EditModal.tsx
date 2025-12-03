@@ -1,4 +1,6 @@
 import React, { useState, useEffect, FormEvent } from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import type { Todo, UpdateTodoDTO, Subtask } from '../types/todo';
 import './EditModal.css';
 
@@ -23,6 +25,7 @@ export const EditModal: React.FC<EditModalProps> = ({
   const [description, setDescription] = useState<string>('');
   const [completed, setCompleted] = useState<boolean>(false);
   const [subtasks, setSubtasks] = useState<Subtask[]>([]);
+  const [dueDate, setDueDate] = useState<Date | null>(null);
 
   useEffect(() => {
     if (todo) {
@@ -30,6 +33,7 @@ export const EditModal: React.FC<EditModalProps> = ({
       setDescription(todo.description);
       setCompleted(todo.completed);
       setSubtasks(todo.subtasks || []);
+      setDueDate(todo.dueDate ? new Date(todo.dueDate) : null);
     }
   }, [todo]);
 
@@ -109,6 +113,7 @@ export const EditModal: React.FC<EditModalProps> = ({
       description: description.trim(),
       completed,
       subtasks: validSubtasks,
+      dueDate: dueDate ? dueDate.toISOString() : undefined,
     });
   };
 
@@ -157,6 +162,29 @@ export const EditModal: React.FC<EditModalProps> = ({
                 disabled={isLoading}
                 required
               />
+            </div>
+            <div className="form-group">
+              <label htmlFor="edit-dueDate">Due Date</label>
+              <div className="date-picker-container">
+                <DatePicker
+                  id="edit-dueDate"
+                  selected={dueDate}
+                  onChange={(date) => setDueDate(date)}
+                  dateFormat="MMM dd, yyyy"
+                  placeholderText="Select due date (optional)"
+                  className="date-picker-input"
+                  wrapperClassName="date-picker-wrapper"
+                  disabled={isLoading}
+                  showPopperArrow={false}
+                  calendarStartDay={0}
+                />
+                <svg className="calendar-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+              </div>
             </div>
             <div className="form-group">
               <label>

@@ -1,4 +1,6 @@
 import React, { useState, FormEvent } from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import type { CreateTodoDTO } from '../types/todo';
 import './AddToDoForm.css';
 
@@ -15,6 +17,7 @@ export const AddToDoForm: React.FC<AddToDoFormProps> = ({ onSubmit, isLoading = 
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [subtasks, setSubtasks] = useState<string[]>(['']);
+  const [dueDate, setDueDate] = useState<Date | null>(null);
 
   const handleSubtaskChange = (index: number, value: string): void => {
     const newSubtasks = [...subtasks];
@@ -47,12 +50,14 @@ export const AddToDoForm: React.FC<AddToDoFormProps> = ({ onSubmit, isLoading = 
       title: title.trim(),
       description: description.trim(),
       subtasks: validSubtasks.length > 0 ? validSubtasks : undefined,
+      dueDate: dueDate ? dueDate.toISOString() : undefined,
     });
 
     // Reset form
     setTitle('');
     setDescription('');
     setSubtasks(['']);
+    setDueDate(null);
   };
 
   return (
@@ -81,6 +86,30 @@ export const AddToDoForm: React.FC<AddToDoFormProps> = ({ onSubmit, isLoading = 
           disabled={isLoading}
           required
         />
+      </div>
+      <div className="form-group">
+        <label htmlFor="dueDate">Due Date</label>
+        <div className="date-picker-container">
+          <DatePicker
+            id="dueDate"
+            selected={dueDate}
+            onChange={(date) => setDueDate(date)}
+            dateFormat="MMM dd, yyyy"
+            placeholderText="Select due date (optional)"
+            className="date-picker-input"
+            wrapperClassName="date-picker-wrapper"
+            disabled={isLoading}
+            minDate={new Date()}
+            showPopperArrow={false}
+            calendarStartDay={0}
+          />
+          <svg className="calendar-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+        </div>
       </div>
       <div className="form-group">
         <label>

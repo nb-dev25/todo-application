@@ -1,4 +1,4 @@
-import React, { useState, useEffect, FormEvent } from 'react';
+import React, { useEffect } from 'react';
 import type { CreateTodoDTO } from '../types/todo';
 import { AddToDoForm } from './AddToDoForm';
 import './AddTodoModal.css';

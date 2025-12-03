@@ -163,6 +163,55 @@
   color: var(--text-color);
 }
 
+/* Date Picker Styles */
+.date-picker-container {
+  position: relative;
+  width: 100%;
+}
+
+.date-picker-wrapper {
+  width: 100%;
+}
+
+.date-picker-input {
+  width: 100%;
+  padding: 14px 3rem 14px 16px;
+  border: 2px solid var(--border-color);
+  border-radius: var(--border-radius);
+  font-size: 15px;
+  font-family: inherit;
+  transition: var(--transition);
+  background: white;
+  color: var(--text-color);
+  cursor: pointer;
+}
+
+.date-picker-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1), var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.date-picker-input:hover {
+  border-color: var(--border-dark);
+}
+
+.date-picker-input:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
+.calendar-icon {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--text-light);
+  z-index: 1;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .add-todo-form {
