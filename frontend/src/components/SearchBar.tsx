@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './SearchBar.css';
@@ -164,7 +164,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
                       selectsEnd
                       startDate={startDate}
                       endDate={endDate}
-                      minDate={startDate}
+                      minDate={startDate || undefined}
                       dateFormat="MMM dd, yyyy"
                       placeholderText="Select end date"
                       className="date-picker-input"
